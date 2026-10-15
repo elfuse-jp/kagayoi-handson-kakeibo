@@ -15,9 +15,7 @@ function TransactionList() {
   return (
     <Card title="取引">
       {rows.length === 0 ? (
-        <p className="py-8 text-center text-text-muted">
-          この月の取引はまだありません。右上の「記録する」から追加できます。
-        </p>
+        <p className="py-8 text-center text-text-muted">この月の取引はまだありません。</p>
       ) : (
         <ul className="divide-y divide-border">
           {rows.map((t) => {

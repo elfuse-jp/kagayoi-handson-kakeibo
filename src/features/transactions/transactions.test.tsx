@@ -27,7 +27,7 @@ describe("取引の一覧", () => {
     expect(within(items[0] as HTMLElement).getByText("給与")).toBeDefined();
   });
 
-  it("取引の無い月は、記録を促す", () => {
+  it("取引の無い月は、取引が無いと出す", () => {
     renderApp({ month: "2026-09", transactions: [transaction({ date: "2026-08-01" })] });
 
     expect(screen.getByText(/この月の取引はまだありません/)).toBeDefined();

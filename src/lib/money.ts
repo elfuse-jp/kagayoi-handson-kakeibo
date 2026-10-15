@@ -3,7 +3,7 @@
 const GROUPED = /^\d{1,3}(,\d{3})+$/;
 const PLAIN = /^\d+$/;
 
-/** 入力の文字列を金額にする。1 以上の整数でなければ null。`1,200` のようなカンマ区切りも受ける。 */
+/** 入力の文字列を金額にする（収支の登録で使う）。1 以上の整数でなければ null。`1,200` のようなカンマ区切りも受ける。 */
 export function parseAmount(input: string): number | null {
   const text = input.trim();
   if (!PLAIN.test(text) && !GROUPED.test(text)) return null;
