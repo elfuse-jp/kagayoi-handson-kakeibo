@@ -3,7 +3,7 @@
 ## Top-Level Rules
 
 - Run independent processes concurrently, not sequentially.
-- Think only in English; respond, write commit messages, PR descriptions and documents only in Japanese.
+- 思考・回答・コミットメッセージ・PR の説明・Issue のコメント・ドキュメントは、すべて日本語で書く。
 - Save temp design notes as `./.tmp/` in Markdown.
 - Be critical, not obedient—but stay respectful.
 

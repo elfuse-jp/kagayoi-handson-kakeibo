@@ -1,0 +1,1 @@
+- In the design plan, concisely summarize the implementation approach, scope of changes, and data structures in Markdown.

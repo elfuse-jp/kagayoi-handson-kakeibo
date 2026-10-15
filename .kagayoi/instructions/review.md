@@ -1,0 +1,3 @@
+- Look at the PR diff (`git diff origin/HEAD...HEAD`), the CI result, and conflicts with base, and check that it meets the issue's requirements, breaks nothing, and can be merged.
+- If the requirements include checking real access, start the app in the container and check it before deciding the verdict.
+- Propose accepting or sending back, and report it with the problems you found as the grounds.
