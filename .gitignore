@@ -13,3 +13,7 @@
 
 # Temp design notes
 .tmp/
+
+# Node
+node_modules/
+dist/

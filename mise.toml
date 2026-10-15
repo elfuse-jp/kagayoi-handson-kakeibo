@@ -2,12 +2,18 @@
 # 手順は docs/development/setup.md。
 
 [tools]
+# KAGAYOI Engineering の Agent のコンテナ（node:24.21.0）と版をそろえる。
+node = "24.21.0"
 # git hooks ランナー。`mise run setup` が .git/hooks へ導入する。
 lefthook = "1.13.6"
 
 [tasks.setup]
-description = "git hooks を導入し、開発を始められる状態にする"
-run = ["lefthook install"]
+description = "依存と git hooks を導入し、開発を始められる状態にする"
+run = ["npm ci --no-audit --no-fund", "lefthook install"]
+
+[tasks.dev]
+description = "開発サーバを起動する（http://127.0.0.1:5173）"
+run = "npm run dev"
 
 [tasks."lint:docs"]
 description = "ドキュメントの書式契約を検査する"
@@ -16,7 +22,11 @@ description = "ドキュメントの書式契約を検査する"
 # Python 3 標準ライブラリのみで動き、この検査自体は追加の依存を持たない。
 run = ["python3 scripts/check-docs-format.py"]
 
+[tasks."check:app"]
+description = "アプリの型検査・lint・テスト"
+# アプリの検査の SSoT は package.json の scripts。Agent のコンテナには mise が無いため npm から呼べる形にしてある。
+run = "npm run check"
+
 [tasks.check]
 description = "フルチェック（CI で docs/ 以外に変更がある PR に実行する）"
-# 品質タスクを束ねる入口。テスト等を足したら depends に加える（CI 側は変えない）。
-depends = ["lint:docs"]
+depends = ["lint:docs", "check:app"]

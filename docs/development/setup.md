@@ -7,40 +7,46 @@
 ## 2 コマンド
 
 ```sh
-mise install     # mise.toml の [tools] を入れる
-mise run setup   # git hooks を導入し、開発を始められる状態にする
+mise install     # mise.toml の [tools] を入れる（Node.js と lefthook）
+mise run setup   # 依存と git hooks を導入する
 ```
 
-これで完了する。`mise run setup` は冪等なので何度実行してもよい。
+`mise run setup` は冪等なので何度実行してもよい。起動は `mise run dev`（http://127.0.0.1:5173）。
 
-新しい言語やツールを足すときは、`mise.toml` の `[tools]` に版を pin し、
-導入手順を `[tasks.setup]` へ足す。**この 2 コマンドで環境が整う状態を保つ**
-（手順書に「あれも入れてください」を書き足さない）。
+新しいツールを足すときは、`mise.toml` の `[tools]` に版を pin し、導入手順を `[tasks.setup]` へ足す。
+**この 2 コマンドで環境が整う状態を保つ**。
 
-## タスク
+## mise の無い環境（KAGAYOI Engineering の Agent のコンテナ）
 
-`mise tasks` で一覧できる。
+コンテナには Node.js 24.21.0 があり、mise と Python は無い。アプリの検査は npm だけで回せる。
 
-| タスク | 内容 |
+```sh
+npm ci
+npm run check
+```
+
+## コマンド
+
+| コマンド | 内容 |
 |---|---|
-| `mise run setup` | git hooks の導入 |
-| `mise run lint:docs` | ドキュメントの書式契約の検査 |
-| `mise run check` | フルチェック（品質タスクをすべて束ねる） |
+| `npm run dev` | 開発サーバ（127.0.0.1:5173） |
+| `npm run check` | 型検査・lint・テストをまとめて流す。**変更したら必ず通す** |
+| `npm run format` | 整形と import の並べ替え |
+| `npm run build` | 本番のビルド |
+| `mise run lint:docs` | ドキュメントの書式契約の検査（Python 3） |
+| `mise run check` | フルチェック（`lint:docs` と `npm run check`） |
 
-## 何が検査されるか
+`npm run lint` は Biome に加え、`scripts/check-styles.mjs` で見た目の書き方（`docs/product/design.md`）を検査する。
 
-`mise run lint:docs` と pre-commit フックが `scripts/check-docs-format.py` を通す。
-検査するのは、放置すると必ず膨らむ 2 種類だけである。
+## 依存
 
-| 対象 | 主な検査 |
-|---|---|
-| 各 `INDEX.md` | 1 行の上限／エントリ書式／補足ラベルの固定／**エントリ名 ⇔ 実在ファイルの双方向一致**／散文の禁止 |
-| `roadmap.md` | 1 行の上限／**入れ子の禁止**／完了項目に依存を残さない／課題番号の重複なし／見出しの制限 |
+- 依存を足すときは版を固定し（`npm install --save-exact`）、`package-lock.json` もコミットする。
+- Agent のコンテナから届くのは npm のレジストリと GitHub だけである。CDN・Web フォント・外部 API に頼らない。
 
-書式の定義は [`../document_system/templates/`](../document_system/templates/) にある。
+## プレビュー
 
-検査器は **Python 3 標準ライブラリのみ**で動く。開発環境の有無に関わらず走らせられ、
-言語やツールチェーンを増やしても影響を受けない。
+`.kagayoi/launch.json` が、KAGAYOI Engineering のプレビューでアプリを起動するコマンドとポートを持つ。
+開発サーバのポートやコマンドを変えたら、このファイルも合わせる。
 
 ## CI
 
@@ -49,9 +55,7 @@ CI は PR の変更範囲で実行内容を分ける。
 | 変更範囲 | 実行 |
 |---|---|
 | `docs/` 配下のみ | `mise run lint:docs`（書式契約だけ） |
-| それ以外を含む | `mise run check`（フルチェック） |
+| それ以外を含む | `npm ci` の後に `mise run check`（フルチェック） |
 
-テストや検査を足すときは `mise.toml` の `[tasks.check]` の `depends` に加える。CI は変えない。
+検査を足すときは `package.json` の `check` か、`mise.toml` の `[tasks.check]` の `depends` に加える。CI は変えない。
 必須ステータスチェックには、どちらの分岐でも結果を返す `result` ジョブを指定する。
-
-書式契約はレビューの目視ではなく、**機械的に落とす**（規約を文章で定めるだけでは守られない）。
