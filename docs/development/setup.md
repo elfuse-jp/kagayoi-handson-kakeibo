@@ -43,10 +43,12 @@ npm run check
 - 依存を足すときは版を固定し（`npm install --save-exact`）、`package-lock.json` もコミットする。
 - Agent のコンテナから届くのは npm のレジストリと GitHub だけである。CDN・Web フォント・外部 API に頼らない。
 
-## プレビュー
+## KAGAYOI Engineering の設定
 
-`.kagayoi/launch.json` が、KAGAYOI Engineering のプレビューでアプリを起動するコマンドとポートを持つ。
-開発サーバのポートやコマンドを変えたら、このファイルも合わせる。
+`.kagayoi/` は KAGAYOI Engineering が読む設定で、`kagayoi init` で作った。読み方は `.kagayoi/README.md` にある。
+
+- `instructions/<工程>.md`: Design・Implement・Review の工程で Agent に渡す指示。既定のブランチから読まれる。
+- `launch.json`: プレビューでアプリを起動するコマンドとポート。開発サーバのポートやコマンドを変えたら、このファイルも合わせる。
 
 ## CI
 
