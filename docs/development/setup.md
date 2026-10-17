@@ -45,10 +45,10 @@ npm run check
 
 ## KAGAYOI Engineering の設定
 
-`.kagayoi/` は KAGAYOI Engineering が読む設定で、`kagayoi init` で作った。読み方は `.kagayoi/README.md` にある。
+`.kagayoi/` は KAGAYOI Engineering が読む設定で、読み方は `.kagayoi/README.md` にある。
 
-- `instructions/<工程>.md`: Design・Implement・Review の工程で Agent に渡す指示。既定のブランチから読まれる。
 - `launch.json`: プレビューでアプリを起動するコマンドとポート。開発サーバのポートやコマンドを変えたら、このファイルも合わせる。
+- 工程ごとの指示は、リポジトリではなく Board の **設定 → 工程ごとの指示** で編集する。
 
 ## CI
 

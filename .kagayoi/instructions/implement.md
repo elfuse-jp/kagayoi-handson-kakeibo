@@ -1,3 +1,0 @@
-- Commit with git for each meaningful unit of change. Write the intent of the change in the commit message.
-- Before finishing, make the tests pass, and if the requirements include checking real access, start the app in the container and check it.
-- When done, briefly report what you did.
